@@ -345,9 +345,9 @@
                         });
 
                         const isNightTheme = themeWrapper.dataset.theme === 'true';
-                        document.body.style.background = isNightTheme ? '#000001' : 'peachpuff';
+                        document.body.style.background = isNightTheme ? '#000001' : '#f5f6fa;';
                         const header = document.querySelector('header');
-                        if (header) header.style.background = isNightTheme ? 'peachpuff' : 'white';
+                        if (header) header.style.background = isNightTheme ? '#f5f6fa;' : 'white';
                     </script>
 
                     <a href="/login" class="<%= currentPage === 'logIn' ? 'selected' : '' %>">Logout</a>
