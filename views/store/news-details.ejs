@@ -224,8 +224,6 @@
 <% } %>
 
 <div class="mainDabba">
-  <img src="/IMG_3134.jpg" class="img1" alt="image">
-  <img src="/IMG_3108.jpg" class="img2" alt="image">
 
   <div class="vender-details-container">
     <div class="vender-image-wrapper">
@@ -234,15 +232,17 @@
     </div>
 
     <div class="vender-content">
-      <h2><%= article.title %></h2>
+            <h2><%= article.title %></h2>
       <p><span class="label">Source:</span> <%= article.source.name %></p>
       <p><span class="label">Published At:</span> <%= new Date(article.publishedAt).toLocaleString() %></p>
       <p><span class="label">Author:</span> <%= article.author || 'Unknown' %></p>
       <p><span class="label">Description:</span> <%= article.description || 'No description available.' %></p>
 
+        <% if (!article.title.match(/[\u0D00-\u0D7F]/)) { %>
       <div class="description-box" style="margin-top: 20px;">
         <%= article.content || 'No detailed content available.' %>
       </div>
+        <%}%>
 
       <div class="action-buttons">
         <a href="<%= article.url %>" target="_blank">
