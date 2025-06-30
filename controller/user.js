@@ -33,7 +33,7 @@ exports.homePage = async (req, res, next) => {
   res.render('./store/news-home', {
     articles,
     apiError,
-    title: "News Home",
+    title: "Nivesh News",
     currentPage: 'home',
     isLogedIn: req.isLogedIn,
     user,
