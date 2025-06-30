@@ -1,0 +1,451 @@
+<!-- HEADER NAVBAR WITH AIRBNB THEME -->
+<style>
+    #location-dropdown .dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#location-dropdown .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+    header {
+        background: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .navbar {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 2rem;
+        padding-left: 2%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    #logo {
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-decoration: none;
+    }
+
+    #logo {
+        color: #ff385c;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.2rem;
+        align-items: center;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #222;
+        padding: 8px 14px;
+        border-radius: 20px;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.selected {
+        background: #f7f7f7;
+        color: #ff385c;
+    }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 6px 10px;
+        border: 1px solid #080000;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .user-menu:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .hamburger {
+        display: none;
+        cursor: pointer;
+    }
+
+    .hamburger img {
+        width: 26px;
+        height: 26px;
+        background:#22222200;
+    }
+    .homeImg{
+        width: 160px;
+        height: 45px; 
+        display: block; 
+        margin-right: 
+        8px; 
+        border-radius: 10px; 
+        background-color: #22222200;
+    }
+    .homeImg:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+
+
+
+    @media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        width: 220px; /* increased width for form space */
+        flex-direction: column;
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.672);
+        padding: 0.6rem 0.8rem;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        animation: fadeDown 0.25s ease-out;
+        z-index: 999;
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        padding: 8px 10px;
+        font-size: 0.95rem;
+        color: #333;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+        background-color: #fce8ec;
+        color: #ff385c;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    @keyframes fadeDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    
+
+    
+}
+.user-menu-wrapper {
+    position: relative;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 6px 10px;
+    border: 1px solid black;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    position: relative;
+}
+
+.user-menu img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 160px;
+    z-index: 1000;
+    animation: fadeDown 0.25s ease-out;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.95rem;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.user-dropdown a:hover {
+    background: #fce8ec;
+    color: #ff385c;
+}
+.user-dropdown.active {
+    display: block;
+}
+.user-menu span {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hamburger img {
+    transition: transform 0.3s ease;
+  }
+
+  /* for theme */
+  .day-night-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .toggle-label {
+        position: relative;
+        width: 31%;
+        height: 40px;
+        background: linear-gradient(to right, #fdd835, #263238);
+        border-radius: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: background 0.4s ease;
+    }
+
+    .toggle-label .label-text {
+        font-size: 14px;
+        color: white;
+        z-index: 2;
+        transition: opacity 0.3s ease;
+    }
+
+    .toggle-label .toggle-ball {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        background: white;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.4s ease;
+        z-index: 1;
+    }
+
+    #theme-toggle {
+        display: none;
+    }
+
+    #theme-toggle:checked+.toggle-label .toggle-ball {
+        transform: translateX(30px);
+    }
+
+    #theme-toggle:checked+.toggle-label {
+        background: linear-gradient(to right, #263238, #fdd835);
+    }
+
+    #theme-toggle:checked+.toggle-label .day {
+        opacity: 0.3;
+    }
+
+    #theme-toggle:not(:checked)+.toggle-label .night {
+        opacity: 0.3;
+    }
+</style>
+<header>
+    <nav class="navbar">
+    <!-- Brand Logo -->
+    <a href="/" id="logo" class="<%= currentPage === 'home' ? 'selected' : '' %>" style="display: flex; align-items: center; height: 48px;">
+        <h4 style="color: darkblue; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; width: 80%;">📈Nivesh News</h4>
+    </a>
+
+    <!-- Navigation Links -->
+    <div class="nav-links" id="nav-links">
+        <% if (isLogedIn) { %>
+            <a href="/user/liked_news" class="<%= currentPage === 'liked' ? 'selected' : '' %>">Liked</a>
+            <a href="/user/saved_news" class="<%= currentPage === 'saved' ? 'selected' : '' %>">Saved</a>
+        <% } else { %>
+            <a href="/logIn" class="<%= currentPage === 'logIn' ? 'selected' : '' %>">Log In</a>
+        <% } %>
+    </div>
+
+    <!-- Right Side (user menu + hamburger) -->
+    <div class="nav-right">
+        <% if (isLogedIn && user) { %>
+            <div class="user-menu-wrapper">
+                <div class="user-menu" id="user-menu-btn">
+                    <img src="<%= user.profilePicture || '/user.jpeg' %>" alt="User Image">
+                    <span><%= user.firstName %></span>
+                    <i class="fas fa-caret-down"></i>
+                </div>
+
+                <div class="user-dropdown" id="user-dropdown">
+                    <div style="display: flex; flex-direction: column; align-items: center; padding-bottom: 0;">
+                        <img src="<%= user.profilePicture || '/user.jpeg' %>" alt="User Image" style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid #eee;">
+                    </div>
+
+                    <!-- Theme Switch -->
+                    <div class="day-night-toggle" data-theme="<%= user.theme %>">
+                        <input type="checkbox" id="theme-toggle" <%= user.theme ? 'checked' : '' %> />
+                        <label for="theme-toggle" class="toggle-label">
+                            <span class="toggle-ball"></span>
+                            <span class="label-text day">🌞</span>
+                            <span class="label-text night">🌙</span>
+                        </label>
+
+                        <form id="theme-form" action="/" method="POST">
+                            <input type="hidden" id="theme-input" name="theme" value="<%= user.theme %>" />
+                        </form>
+                    </div>
+
+                    <script>
+                        const themeToggle = document.getElementById('theme-toggle');
+                        const themeInput = document.getElementById('theme-input');
+                        const themeForm = document.getElementById('theme-form');
+                        const themeWrapper = document.querySelector('.day-night-toggle');
+
+                        themeToggle.addEventListener('change', () => {
+                            themeInput.value = themeToggle.checked;
+                            themeForm.submit();
+                        });
+
+                        const isNightTheme = themeWrapper.dataset.theme === 'true';
+                        document.body.style.background = isNightTheme ? '#000001' : 'peachpuff';
+                        const header = document.querySelector('header');
+                        if (header) header.style.background = isNightTheme ? 'peachpuff' : 'white';
+                    </script>
+
+                    <a href="/login" class="<%= currentPage === 'logIn' ? 'selected' : '' %>">Logout</a>
+                    <a href="/edit_details/<%= user._id %>?editing=true">Edit Profile</a>
+                    <a href="/delete_user/<%= user._id %>">Delete Account</a>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Hamburger Menu -->
+        <div class="hamburger" id="hamburger-btn">
+            <img src="/list.png" alt="Menu">
+        </div>
+    </div>
+</nav>
+</header>
+<script>
+  let rotated = false;
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const listImage = hamburgerBtn.querySelector('img');
+
+  hamburgerBtn.addEventListener('click', () => {
+    rotated = !rotated;
+
+    if (rotated) {
+      listImage.style.transform = 'rotate(-90deg)';
+    } else {
+      listImage.style.transform = 'rotate(0deg)'; // back to normal
+    }
+  });
+</script>
+
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+
+<!-- JavaScript to toggle dropdown menu -->
+<script>
+    const hamburger = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+</script>
+<script>
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    const userDropdown = document.getElementById('user-dropdown');
+
+    userMenuBtn?.addEventListener('click', () => {
+        userDropdown.classList.toggle('active');
+    });
+
+    // Optional: Click outside to close dropdown
+    document.addEventListener('click', function (e) {
+        if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+            userDropdown.classList.remove('active');
+        }
+    });
+</script>
+
+<script>
+  function hideDropdown() {
+    setTimeout(() => {
+      document.getElementById('location-dropdown').style.display = 'none';
+    }, 200); // slight delay for click to register
+  }
+
+  function selectLocation(value) {
+    document.getElementById('search-bar').value = value;
+    document.getElementById('location-dropdown').style.display = 'none';
+  }
+
+  function filterDropdown(query) {
+    const dropdown = document.getElementById('location-dropdown');
+    const items = document.querySelectorAll('#location-dropdown .dropdown-item');
+    query = query.toLowerCase();
+
+    if (query.length < 1) {
+      dropdown.style.display = 'none';
+      return;
+    }
+
+    let anyVisible = false;
+    items.forEach(item => {
+      if (item.textContent.toLowerCase().includes(query)) {
+        item.style.display = 'block';
+        anyVisible = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    dropdown.style.display = anyVisible ? 'block' : 'none';
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-bar-form')) {
+      hideDropdown();
+    }
+  });
+</script>

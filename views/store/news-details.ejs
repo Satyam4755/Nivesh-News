@@ -1,0 +1,287 @@
+<%- include('../partials/head') %>
+
+<%-include('../partials/background')%>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    .red { color: red; }
+    .green { color: green; }
+
+    .vender-details-container {
+        z-index: 3;
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 24px;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .vender-image {
+        width: 100%;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    .vender-content {
+        padding: 16px 12px;
+    }
+
+    .vender-content h2 {
+        font-size: 26px;
+        margin-bottom: 10px;
+        color: #1a1a1a;
+        text-align: center;
+    }
+
+    .vender-content p {
+        margin: 8px 0;
+        font-size: 15px;
+        color: #444;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .rating-badge {
+        display: inline-block;
+        background: #fff3cd;
+        color: #856404;
+        padding: 5px 12px;
+        border-radius: 50px;
+        font-size: 13px;
+    }
+
+    .description-box {
+        margin-top: 16px;
+        background: #f1f1f1;
+        padding: 14px;
+        border-left: 4px solid #007bff;
+        border-radius: 8px;
+        font-style: italic;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #0056b3;
+    }
+
+    .fav-btn img {
+        width: 32px;
+        height: 32px;
+        transition: transform 0.3s ease;
+    }
+
+    .fav-btn img:hover {
+        transform: scale(1.1);
+        filter: brightness(1.2);
+    }
+
+    .back-btn {
+        background-color: #6c757d;
+        color: white;
+        margin: 30px auto;
+        display: block;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    .back-btn:hover {
+        background-color: #5a6268;
+    }
+
+    .review_list {
+        max-height: 200px;
+        overflow-y: auto;
+        font-size: 14px;
+    }
+
+    .reviews-panel {
+        position: absolute;
+        top: 10%;
+        right: 5%;
+        width: 350px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+    #favImg1 {
+        filter: grayscale(1);
+    }
+    #favImg1:hover {
+        filter: none;
+        transform: scale(1.1);
+    }
+    #favImg2 {
+        filter: none;
+    }
+    #favImg2:hover {
+        filter: grayscale(1);
+        transform: scale(1.1);
+    }
+
+    .Rbtn img {
+        width: 50px;
+        height: 50px;
+        transition: all 0.3s ease;
+    }
+
+    .Rbtn img:hover {
+        transform: scale(1.1);
+    }
+
+    .add_btn, .submit_btn {
+        background-color: #28a745;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .add_btn:hover, .submit_btn:hover {
+        background-color: #218838;
+    }
+
+    .review-form-popup {
+        margin-top: 10px;
+        padding: 12px;
+        background: #eef2f7;
+        border: 1px solid #007bff;
+        border-radius: 8px;
+    }
+
+    .review-form-popup textarea {
+        width: 100%;
+        height: 70px;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .mainDabba {
+        margin-bottom: 10%;
+    }
+
+    .img1, .img2 {
+        display: none; /* Hide tiffin-oriented images */
+    }
+
+    @media (max-width: 720px) {
+        .vender-details-container {
+            margin: 20px 5%;
+            padding: 16px;
+        }
+
+        .reviews-panel {
+            width: 80%;
+            left: 10%;
+        }
+
+        .review_list {
+            font-size: 13px;
+        }
+    }
+</style>
+<% if (messages.success && messages.success.length > 0) { %>
+  <script>
+    alert("<%= messages.success[0] %>");
+  </script>
+<% } %>
+
+<div class="mainDabba">
+  <img src="/IMG_3134.jpg" class="img1" alt="image">
+  <img src="/IMG_3108.jpg" class="img2" alt="image">
+
+  <div class="vender-details-container">
+    <div class="vender-image-wrapper">
+      <img class="vender-image" src="<%= article.urlToImage || '/default-news.jpg' %>" alt="News Image"
+      onerror="this.onerror=null; this.src='/newsImg.webp';">
+    </div>
+
+    <div class="vender-content">
+      <h2><%= article.title %></h2>
+      <p><span class="label">Source:</span> <%= article.source.name %></p>
+      <p><span class="label">Published At:</span> <%= new Date(article.publishedAt).toLocaleString() %></p>
+      <p><span class="label">Author:</span> <%= article.author || 'Unknown' %></p>
+      <p><span class="label">Description:</span> <%= article.description || 'No description available.' %></p>
+
+      <div class="description-box" style="margin-top: 20px;">
+        <%= article.content || 'No detailed content available.' %>
+      </div>
+
+      <div class="action-buttons">
+        <a href="<%= article.url %>" target="_blank">
+          <button class="btn">Read Full Article</button>
+        </a>
+
+        <% if (isLogedIn) { %>
+          <form action="/news/like" method="POST" class="fav-btn" style="display:inline;">
+            <input type="hidden" name="newsUrl" value="<%= article.url %>">
+            <button type="submit" style="background: none; border: none; margin-left: 10px;">
+            <img id="<%= likedUrls.includes(article.url) ? 'favImg2' : 'favImg1' %>" src="/pngtree-red-3d-heart-emoji-realistic-shadow-png-image_4539964.png"
+            alt="Like" style="width: 30px;">
+            </button>
+          </form>
+
+          <form action="/news/save" method="POST" class="fav-btn" style="display:inline;">
+            <input type="hidden" name="newsUrl" value="<%= article.url %>">
+            <button type="submit" class="save-btn" style="display: flex; align-items: center; gap: 6px; background: #fff; border: 2px solid #d81b60; color: #d81b60; border-radius: 20px; padding: 6px 16px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s, border 0.2s; margin-bottom: 10px;">
+            <span style="font-size: 1.2rem;">
+              <%= savedUrls.includes(article.url) ? '🔖' : '📥' %>
+            </span>
+            <span>
+              <%= savedUrls.includes(article.url) ? 'Unsave' : 'Save' %>
+            </span>
+            </button>
+          </form>
+        <% } else { %>
+          <a href="/logIn"><button class="btn">Login to Like/Save</button></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <a href="/" style="text-decoration:none;">
+    <button class="btn back-btn">⬅️ Go Back To News</button>
+  </a>
+</div>
+
+<%- include('../partials/loading') %>
+<%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<%- include('../partials/head') %>
+<style>
+  body {
+    background: linear-gradient(135deg, #0d1b2a, #1b263b);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-container {
+    background: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 20px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 0 30px rgba(13, 27, 42, 0.3);
+    border-top: 8px solid #0077b6;
+    animation: popIn 0.6s ease-in-out;
+  }
+
+  @keyframes popIn {
+    0% {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    font-size: 2rem;
+    color: #0d1b2a;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  .form-container h2::after {
+    content: "📰";
+    position: absolute;
+    right: -30px;
+    top: 2px;
+    font-size: 1.5rem;
+  }
+
+  .input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #adb5bd;
+    background-color: #f1f3f5;
+    font-size: 1rem;
+    color: #212529;
+    transition: all 0.3s ease;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: #0077b6;
+    background-color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 119, 182, 0.2);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  input[type="file"] {
+    background-color: #f1f3f5;
+    border: 2px dashed #adb5bd;
+    padding: 10px;
+    border-radius: 12px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  input[type="file"]:focus {
+    border-color: #0077b6;
+    background: #ffffff;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+
+  button:hover {
+    background: linear-gradient(135deg, #023e8a, #0077b6);
+    transform: scale(1.05);
+  }
+
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+    color: #495057;
+  }
+
+  .checkbox-group input {
+    transform: scale(1.1);
+    accent-color: #0077b6;
+  }
+
+  .checkbox-group a {
+    color: #0077b6;
+    text-decoration: underline;
+    margin-left: 4px;
+  }
+
+  .login-link {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .login-link a {
+    color: #0077b6;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .login-link a:hover {
+    color: #ffffff;
+    background-color: #0077b6;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .form-container {
+      padding: 1.5rem;
+      border-radius: 15px;
+    }
+
+    .form-container h2 {
+      font-size: 1.6rem;
+    }
+
+    input,
+    select,
+    button {
+      font-size: 0.95rem;
+    }
+
+    .checkbox-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<body>
+  <div class="form-container" role="main" aria-labelledby="form-title">
+    <h2 id="form-title"><%= editing ? 'Edit Profile' : 'Sign Up' %></h2>
+ 
+    <form
+      action="<%= editing ? '/edit_details' : '/signUP' %>"
+      method="post"
+      enctype="multipart/form-data"
+      novalidate
+    >
+      <input type="hidden" name="id" value="<%= editing ? user._id : '' %>" />
+      <%- include('../partials/errorHandel') %>
+
+      <!-- Profile Picture -->
+      <div class="input-group">
+        <input
+          type="file"
+          id="profilePicture"
+          name="profilePicture"
+          accept="image/*"
+          aria-describedby="profilePicture-desc"
+        />
+        <label style="color: maroon; font-weight: 800;" for="profilePicture">Profile Picture</label>
+        <small style="color:darkblue ;" id="profilePicture-desc" class="sr-only">
+          Upload your profile picture (optional)
+        </small>
+      </div>
+      <h3>Are you Customer or Vendor?</h3>
+
+      <!-- First Name -->
+      <div class="input-group">
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value="<%= editing ? user.firstName : (oldInput ? oldInput.firstName : '') %>"
+          required
+          autocomplete="given-name"
+        />
+        <label for="firstName">First Name</label>
+      </div>
+
+      <!-- Last Name -->
+      <div class="input-group">
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value="<%= editing ? user.lastName : (oldInput ? oldInput.lastName : '') %>"
+          required
+          autocomplete="family-name"
+        />
+        <label for="lastName">Last Name</label>
+      </div>
+
+
+      <!-- Email -->
+      <div class="input-group">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= editing ? user.email : (oldInput ? oldInput.email : '') %>"
+          required
+          autocomplete="email"
+        />
+        <label for="email">Email</label>
+      </div>
+
+      <!-- Password -->
+      <div class="input-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          minlength="6"
+          required
+          autocomplete="<%= editing ? 'new-password' : 'new-password' %>"
+          placeholder="<%= editing ? 'Leave blank to keep current password' : '' %>"
+        />
+        <label for="password">Password</label>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="input-group">
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          minlength="6"
+          required
+          autocomplete="<%= editing ? 'new-password' : 'new-password' %>"
+          placeholder="<%= editing ? 'Leave blank to keep current password' : '' %>"
+        />
+        <label for="confirmPassword">Confirm Password</label>
+      </div>
+
+
+      <!-- Terms Checkbox -->
+      <% if (!editing) { %>
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" name="terms" required aria-required="true" />
+        <label for="terms">
+          I agree to the <a href="#">terms and conditions</a>
+        </label>
+      </div>
+      <% } %>
+
+      <!-- Submit Button -->
+      <button type="submit">
+        <%= editing ? 'Update Profile' : 'Create Account' %>
+      </button>
+    </form>
+
+    <% if (!editing) { %>
+    <div class="login-link" aria-label="Login link">
+      Already have an account?
+      <a href="/login"><strong>Log In</strong></a>
+    </div>
+    <% } else { %>
+    <div style="text-align:center; margin-top:1rem;">
+      <a href="/" aria-label="Back to home" style="display:inline-block; padding:8px 20px; background:linear-gradient(135deg,#f8bbd0,#e91e63); color:#fff; border-radius:12px; text-decoration:none; font-weight:600; font-size:1rem; box-shadow:0 2px 8px rgba(233,30,99,0.08); transition:background 0.3s, color 0.3s, transform 0.2s;">
+        Back
+      </a>
+    </div>
+    <% } %>
+  </div>
+
+
+  <%-include('../partials/loading')%>
+</body>
+</html>

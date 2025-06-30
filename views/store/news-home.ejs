@@ -1,0 +1,450 @@
+<%- include('../partials/head') %>
+<%- include('../partials/background') %>
+
+<style>
+    body {
+        font-family: 'Segoe UI', 'Poppins', Arial, sans-serif;
+        background: #f5f6fa;
+        color: #222;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Header/Logo */
+    .news-header {
+        background: #232f3e;
+        color: #fff;
+        padding: 32px 0 18px 0;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+        letter-spacing: 2px;
+    }
+    .news-header h1 {
+        font-size: 2.7rem;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 8px #1a1a1a33;
+    }
+    .news-header p {
+        font-size: 1.1rem;
+        color: #e0e0e0;
+        margin: 8px 0 0 0;
+        font-weight: 400;
+    }
+
+    /* News Cards Grid */
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 32px;
+        padding: 24px 4vw 0 4vw;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(44,62,80,0.07);
+        overflow: hidden;
+        transition: box-shadow 0.2s, transform 0.2s;
+        border: 1px solid #e3e3e3;
+        display: flex;
+        flex-direction: column;
+        min-height: 420px;
+        position: relative;
+    }
+    .card:hover {
+        box-shadow: 0 8px 32px rgba(44,62,80,0.13);
+        transform: translateY(-4px) scale(1.01);
+    }
+    .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        background: #f0f0f0;
+    }
+    .content {
+        padding: 18px 16px 10px 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .card h3 {
+        margin: 0 0 10px 0;
+        color: #1a1a1a;
+        font-size: 1.18rem;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+    .card p {
+        margin: 0 0 8px 0;
+        color: #444;
+        font-size: 1rem;
+        text-align: left;
+    }
+    .card p:last-child {
+        margin-bottom: 0;
+    }
+    .card .fav-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin: 12px 0 0 0;
+    }
+    .card .reserve {
+        margin: 16px 0 0 0;
+        width: 100%;
+        background: #232f3e;
+        color: #fff;
+        border-radius: 6px;
+        padding: 10px 0;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .card .reserve:hover {
+        background: #d81b60;
+    }
+    .fav-container button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+    .fav-container img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 4px #eee;
+        transition: filter 0.2s, transform 0.2s;
+    }
+    #favImg1 {
+        filter: grayscale(1);
+    }
+    #favImg1:hover {
+        filter: none;
+        transform: scale(1.1);
+    }
+    #favImg2 {
+        filter: none;
+    }
+    #favImg2:hover {
+        filter: grayscale(1);
+        transform: scale(1.1);
+    }
+
+    /* Section Titles */
+    h2 {
+        text-align: left;
+        color: #232f3e;
+        margin: 48px 0 18px 4vw;
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+    h3, p {
+        text-align: left;
+        padding: 0;
+    }
+
+    /* Promo Image */
+    .promo-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 48px 0 32px 0;
+    }
+    .promo-image {
+        max-width: 90vw;
+        width: 600px;
+        height: auto;
+        border-radius: 16px;
+        box-shadow: 0 6px 24px rgba(44,62,80,0.10);
+        object-fit: cover;
+    }
+
+    /* Offers Section */
+    .offers-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+        margin: 36px 0 0 0;
+    }
+    .offer-card {
+        background: #f7f7f7;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+        width: 320px;
+        padding: 24px 18px 18px 18px;
+        border-left: 5px solid #d81b60;
+        position: relative;
+        transition: box-shadow 0.2s, border-color 0.2s;
+        text-align: left;
+    }
+    .offer-card:hover {
+        box-shadow: 0 8px 24px rgba(44,62,80,0.13);
+        border-color: #232f3e;
+    }
+    .offer-card h3 {
+        color: #232f3e;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-align: left;
+    }
+    .offer-card p {
+        color: #444;
+        font-size: 1rem;
+        margin-bottom: 0;
+        text-align: left;
+    }
+    .offer-badge {
+        position: absolute;
+        top: -16px;
+        left: 18px;
+        background: #d81b60;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        padding: 5px 14px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px #ffd6d6;
+        letter-spacing: 1px;
+    }
+
+    /* Special Offer Section */
+    .special-offer {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+        width: 90%;
+        max-width: 700px;
+        margin: 24px auto 0 auto;
+        padding: 22px 18px 18px 18px;
+        border-left: 5px solid #d81b60;
+        text-align: left;
+        font-size: 1.08rem;
+        color: #232f3e;
+        font-weight: 500;
+        position: relative;
+    }
+    .special-offer strong {
+        color: #d81b60;
+    }
+    .special-offer .emoji {
+        font-size: 22px;
+        vertical-align: middle;
+        margin-right: 6px;
+    }
+
+    /* Error Message */
+    .error-msg {
+        background: #fff3f3;
+        color: #d81b60;
+        border: 1px solid #ffd6d6;
+        border-radius: 8px;
+        padding: 12px 18px;
+        margin: 24px auto 0 auto;
+        max-width: 600px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 2px 8px #ffd6d6;
+    }
+
+    /* Decorative Images (hidden on mobile) */
+    .img1, .img2, .img3, .img4 {
+        display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .cards-container, .offers-section {
+            grid-template-columns: 1fr;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .card, .offer-card {
+            width: 98%;
+            min-width: 0;
+        }
+        h2 {
+            margin-left: 3vw;
+        }
+    }
+    @media (max-width: 600px) {
+        .cards-container {
+            grid-template-columns: 1fr;
+            padding: 12px 2vw 0 2vw;
+        }
+        .promo-image {
+            width: 98vw;
+        }
+        .news-header h1 {
+            font-size: 2rem;
+        }
+        .search-bar-form {
+            max-width: 99vw;
+        }
+        h2 {
+            font-size: 1.2rem;
+        }
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+<!-- News Website Header -->
+<div class="news-header">
+    <h1>India News Hub</h1>
+    <p>Your trusted source for the latest headlines and breaking news</p>
+</div>
+
+<%- include('../partials/nav') %>
+
+<% if (apiError) { %>
+  <div class="error-msg">⚠️ Unable to load news at this time. Please try again later.</div>
+<% } %>
+<h2 style="text-align:center; color:#d81b60; margin: 30px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); animation: bounce 6s infinite;">
+  🗞️ Top Headlines in India
+</h2>
+
+<div class="mainDabba">
+
+        <% if (articles.length===0) { %>
+            <p style="text-align:center; color: #888; margin-top: 40px;">No news found at the moment.</p>
+            <% } else { %>
+                <div class="cards-container">
+                    <% articles.forEach(article=> { %>
+                        <div class="card">
+        
+                            <a href="/news/details/<%= encodeURIComponent(article.url) %>"
+                                style="text-decoration: none; color: inherit;">
+                                <img src="<%= article.urlToImage || '/newsImg.webp' %>" alt="News Image"
+                                    onerror="this.onerror=null; this.src='/newsImg.webp';">
+                                <div class="content">
+                                    <h3>
+                                        <%= article.title %>
+                                    </h3>
+                                    <p>
+                                        <%= article.description ? article.description.slice(0, 100) + '...'
+                                            : 'No description available.' %>
+                                    </p>
+                                    <p><strong>Source:</strong>
+                                        <%= article.source.name || 'Unknown' %>
+                                    </p>
+                                </div>
+                            </a>
+        
+                            <% if (showOptions) { %>
+                                <div class="fav-container">
+                                    <!-- ❤️ LIKE Button -->
+
+                                    <form action="/news/like" method="POST">
+                                        <input type="hidden" name="newsUrl" value="<%= article.url %>">
+                                        <button type="submit" style="background: none; border: none; margin-left: 10px;">
+                                            <img id="<%= likedUrls.includes(article.url) ? 'favImg2' : 'favImg1' %>" src="/pngtree-red-3d-heart-emoji-realistic-shadow-png-image_4539964.png"
+                                                alt="Like" style="width: 30px;">
+                                        </button>
+                                    </form>
+        
+                                    <!-- 📥 SAVE Button -->
+                                    <form action="/news/save" method="POST">
+                                        <input type="hidden" name="newsUrl" value="<%= article.url %>">
+                                        <button type="submit" class="save-btn" style="display: flex; align-items: center; gap: 6px; background: #fff; border: 2px solid #d81b60; color: #d81b60; border-radius: 20px; padding: 6px 16px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s, border 0.2s; margin-bottom: 10px;">
+                                            <span style="font-size: 1.2rem;">
+                                                <%= savedUrls.includes(article.url) ? '🔖' : '📥' %>
+                                            </span>
+                                            <span>
+                                                <%= savedUrls.includes(article.url) ? 'Unsave' : 'Save' %>
+                                            </span>
+                                        </button>
+                                        <style>
+                                            .save-btn:hover {
+                                                background: #d81b60 !important;
+                                                color: #fff !important;
+                                                border-color: #d81b60 !important;
+                                            }
+                                        </style>
+                                    </form>
+                                </div>
+                                <% } else { %>
+                                    <a href="/login">
+                                        <button class="reserve">Login to Like / Save</button>
+                                    </a>
+                                    <% } %>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } %>
+  
+        <br>
+        <br>
+        <br>
+        <div class="promo-image-container">
+            <img src="/3.png" alt="Promotional" class="promo-image" style="width: 400px; height: 220px; border-radius: 24px; object-fit: cover; box-shadow: 0 4px 16px rgba(44,62,80,0.10);">
+        </div>
+        
+        <h2 style="color: rgb(152, 10, 98);">Why Choose Us?</h2>
+        <h3 class="special-offer" style="min-width: 90%;">
+            📰 Welcome to <strong>India News Hub</strong> — your trusted multi-source news platform that keeps you updated with
+            the latest headlines, breaking updates, and trending stories across India and the globe. We bring together real-time
+            top stories using advanced APIs 🧠, clean design 🎨, and an intuitive user experience that puts news at your
+            fingertips.
+            <br><br>
+            Whether you're into politics, technology, sports, entertainment, or local updates — we’ve got you covered 24/7.
+            Built with modern technologies like <strong>Node.js</strong>, <strong>Express.js</strong>, and
+            <strong>Axios</strong>, our platform is fast, secure 🔐, and reliable. With features like bookmarking 📥 and liking
+            ❤️, you’ll never lose track of your favorite articles again.
+            <br><br>
+            Stay informed. Stay connected. Stay ahead. 🧭📡
+        </h3>
+        
+        <h2 style="color: rgb(152, 10, 98);">Special Features</h2>
+        <p style="font-size:17px;margin-left: 23%;margin-right: 13%; color:#ff4d4f; font-weight:600; margin-bottom:24px;">
+            Explore what makes us the most reliable and reader-friendly platform:
+        </p>
+        
+        <div class="offers-section">
+            <div class="offer-card">
+                <div class="offer-badge">📥 Save News</div>
+                <h3>Bookmark Your Favorites</h3>
+                <p>Save important articles to revisit anytime.</p>
+            </div>
+            <div class="offer-card">
+                <div class="offer-badge">❤️ Like Articles</div>
+                <h3>Build Your News Feed</h3>
+                <p>Like stories and see what matters most to you.</p>
+            </div>
+        </div>
+        
+        <div class="special-offer">
+            <span class="emoji">🌐</span> <strong>Live Updates from Trusted Sources</strong><br>
+            Get real-time top headlines across India from verified media networks.
+        </div>
+        
+        <div class="special-offer">
+            <span class="emoji">🔍</span> <strong>Smart Categorization</strong><br>
+            Browse by categories like business, sports, entertainment, and more for a personalized experience.
+        </div>
+  <%-include('../partials/loading')%>
+  <%-include('../partials/footer')%>
+</body>
+</html>
