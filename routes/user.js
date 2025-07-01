@@ -15,12 +15,9 @@ const {
 // GET routes
 userRouter.get('/', homePage); // Home page with top news
 userRouter.get('/news/details/:encodedUrl', newsDetails); // News details page
-userRouter.get('/user/liked_news', likedNewsList); // Show liked articles
 userRouter.get('/user/saved_news', savedNewsList); // Show saved articles
 
 // POST routes
-userRouter.post('/news/like', postLikedNews); // Like/unlike toggle
-userRouter.post('/news/unlike/:newsUrl', postUnlikedNews); // Remove from liked page
 userRouter.post('/news/save', postSavedNews); // Save/unsave toggle
 userRouter.post('/news/unsave/:newsUrl', postUnsavedNews); // Remove from saved page
 userRouter.post('/', postHomePage); // Theme change toggle
