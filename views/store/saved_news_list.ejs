@@ -1,11 +1,12 @@
-<%-include('../partials/head')%>
-<%-include('../partials/background')%>
-    
+<%- include('../partials/head') %>
+<%- include('../partials/background') %>
+
 <style> 
     h1, h2 {
         text-align: center;
         color: #4a148c;
         margin-bottom: 20px;
+        animation: bounce 1s ease-in-out;
     }
 
     .cards-container {
@@ -78,21 +79,6 @@
         transform: scale(1.1);
     }
 
-    .card h3.booked {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        color: #ffffff;
-        font-weight: bold;
-        background-color: #d81b60;
-        padding: 5px 15px;
-        border-radius: 25px;
-        font-size: 0.9rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-
-
     @keyframes fadeIn {
         from {
             opacity: 0;
@@ -116,10 +102,7 @@
         }
     }
 
-    h1, h2 {
-        animation: bounce 1s ease-in-out;
-    }
-    .badaDabba{
+    .badaDabba {
         margin-bottom: 15%;
     }
 </style>
@@ -137,36 +120,38 @@
 </h2>
 
 <div class="badaDabba">
-
-
   <div class="cards-container">
     <% if (savedNews.length === 0) { %>
       <p style="text-align: center; font-size: 18px;">No saved news found.</p>
     <% } %>
 
     <% savedNews.forEach(news => { %>
-  <div class="card">
-    <a href="/news/details/<%= encodeURIComponent(news.url) %>">
-      <img src="<%= news.urlToImage || '/delivery.png' %>" 
-           alt="News Image" 
-           onerror="this.onerror=null; this.src='/newsImg.webp';" />
-    </a>
+      <div class="card">
+        <a href="/news/details/<%= encodeURIComponent(news.url) %>">
+          <img src="<%= news.urlToImage || '/delivery.png' %>" 
+               alt="News Image" 
+               onerror="this.onerror=null; this.src='/newsImg.webp';" />
+        </a>
 
-    <div class="content">
-      <h3><%= news.title %></h3>
-      <p><strong>Source:</strong> <%= news.source.name %></p>
-      <p><strong>Description:</strong> <%= news.description %></p>
+        <div class="content">
+          <h3><%= news.title %></h3>
+          <% if (news.source && news.source.name) { %>
+            <p><strong>Source:</strong> <%= news.source.name %></p>
+          <% } %>
+          <% if (news.description) { %>
+            <p><strong>Description:</strong> <%= news.description %></p>
+          <% } %>
 
-      <a href="<%= news.url %>" target="_blank">
-        <button class="reserve">Read Full Article</button>
-      </a>
+          <a href="<%= news.url %>" target="_blank">
+            <button>Read Full Article</button>
+          </a>
 
-      <form action="/news/unsave/<%= encodeURIComponent(news.url) %>" method="POST" style="margin-top: 10px;">
-        <button onclick="return confirm('Remove this news from saved list?')" class="reserve">Unsave</button>
-      </form>
-    </div>
-  </div>
-<% }); %>
+          <form action="/news/unsave/<%= encodeURIComponent(news.url) %>" method="POST" style="margin-top: 10px;">
+            <button onclick="return confirm('Remove this news from saved list?')">Unsave</button>
+          </form>
+        </div>
+      </div>
+    <% }); %>
   </div>
 </div>
 
