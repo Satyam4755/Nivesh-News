@@ -9,21 +9,23 @@ const NEWS_API_URL = `https://newsapi.org/v2/everything?q=india&language=en&sort
 exports.homePage = async (req, res, next) => {
   let user = null;
   let showOptions = false;
-  let likedUrls = [];
   let savedUrls = [];
 
   if (req.isLogedIn && req.session.user) {
     user = await User.findById(req.session.user._id);
-    likedUrls = user.likedNews || [];
-    savedUrls = user.savedNews || [];
+
+
+    // 🛠️ Extract URLs from saved articles
+    savedUrls = (user.savedNews || []).map(article => article.url);
+
     showOptions = true;
   }
 
   let articles = [];
   let apiError = false;
+
   try {
     const response = await axios.get(NEWS_API_URL);
-    // console.log(response.data);
     articles = response.data.articles || [];
   } catch (error) {
     apiError = true;
@@ -38,7 +40,6 @@ exports.homePage = async (req, res, next) => {
     isLogedIn: req.isLogedIn,
     user,
     showOptions,
-    likedUrls,
     savedUrls
   });
 };
@@ -81,79 +82,12 @@ exports.newsDetails = async (req, res, next) => {
   });
 };
 
-// ------------------------ LIKED NEWS LIST ------------------------
-exports.likedNewsList = async (req, res, next) => {
-  if (!req.isLogedIn || !req.session.user) return res.redirect('/login');
-
-  const user = await User.findById(req.session.user._id);
-  const likedNewsUrls = user.likedNews;
-
-  let likedArticles = [];
-  try {
-    const response = await axios.get(NEWS_API_URL);
-    const allArticles = response.data.articles || [];
-    likedArticles = allArticles.filter(article => likedNewsUrls.includes(article.url));
-  } catch (error) {
-    console.error("Error fetching liked news:", error.message);
-  }
-
-  res.render('./store/liked_news_list', {
-    likedNews: likedArticles,
-    title: "Liked News",
-    currentPage: 'liked',
-    isLogedIn: req.isLogedIn,
-    user,
-    messages: req.flash(),
-  });
-};
-
-// ------------------------ POST LIKE TOGGLE ------------------------
-exports.postLikedNews = async (req, res, next) => {
-  if (!req.isLogedIn || !req.session.user) return res.redirect('/login');
-
-  const newsUrl = req.body.newsUrl;
-  const user = await User.findById(req.session.user._id);
-
-  if (!user.likedNews.includes(newsUrl)) {
-    user.likedNews.push(newsUrl);
-  } else {
-    user.likedNews.pull(newsUrl);
-  }
-
-  await user.save();
-  res.redirect('/');
-};
-
-// ------------------------ REMOVE FROM LIKED ------------------------
-exports.postUnlikedNews = async (req, res, next) => {
-  if (!req.isLogedIn || !req.session.user) return res.redirect('/login');
-
-  const encodedUrl = req.params.newsUrl;
-  const newsUrl = decodeURIComponent(encodedUrl);
-
-  const user = await User.findById(req.session.user._id);
-  user.likedNews.pull(newsUrl);
-
-  await user.save();
-  req.flash('success', 'News removed from liked list successfully!');
-  res.redirect('/user/liked_news');
-};
-
 // ------------------------ SAVED NEWS LIST ------------------------
 exports.savedNewsList = async (req, res, next) => {
   if (!req.isLogedIn || !req.session.user) return res.redirect('/login');
 
   const user = await User.findById(req.session.user._id);
-  const savedNewsUrls = user.savedNews;
-
-  let savedArticles = [];
-  try {
-    const response = await axios.get(NEWS_API_URL);
-    const allArticles = response.data.articles || [];
-    savedArticles = allArticles.filter(article => savedNewsUrls.includes(article.url));
-  } catch (error) {
-    console.error("Error fetching saved news:", error.message);
-  }
+  const savedArticles = user.savedNews || [];
 
   res.render('./store/saved_news_list', {
     savedNews: savedArticles,
@@ -172,14 +106,28 @@ exports.postSavedNews = async (req, res, next) => {
   const newsUrl = req.body.newsUrl;
   const user = await User.findById(req.session.user._id);
 
-  if (!user.savedNews.includes(newsUrl)) {
-    user.savedNews.push(newsUrl);
+  // Avoid duplicates
+  const alreadySaved = user.savedNews.find(article => article.url === newsUrl);
+  if (!alreadySaved) {
+    try {
+      const response = await axios.get(NEWS_API_URL);
+      const allArticles = response.data.articles || [];
+      const articleToSave = allArticles.find(article => article.url === newsUrl);
+
+      if (articleToSave) {
+        user.savedNews.push(articleToSave);
+        await user.save();
+      }
+    } catch (err) {
+      console.error("Error fetching article for saving:", err.message);
+    }
   } else {
-    user.savedNews.pull(newsUrl);
+    // Toggle off (unsave)
+    user.savedNews = user.savedNews.filter(article => article.url !== newsUrl);
+    await user.save();
   }
 
-  await user.save();
-  res.redirect('/');
+  res.redirect('/user/saved_news');
 };
 
 // ------------------------ REMOVE FROM SAVED ------------------------
@@ -190,7 +138,7 @@ exports.postUnsavedNews = async (req, res, next) => {
   const newsUrl = decodeURIComponent(encodedUrl);
 
   const user = await User.findById(req.session.user._id);
-  user.savedNews.pull(newsUrl);
+  user.savedNews = user.savedNews.filter(article => article.url !== newsUrl);
 
   await user.save();
   req.flash('success', 'News removed from saved list successfully!');
