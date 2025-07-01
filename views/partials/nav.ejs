@@ -249,7 +249,7 @@
     }
 
     .toggle-label .label-text {
-        font-size: 14px;
+        font-size: 20px;
         color: white;
         z-index: 2;
         transition: opacity 0.3s ease;
@@ -297,7 +297,6 @@
     <!-- Navigation Links -->
     <div class="nav-links" id="nav-links">
         <% if (isLogedIn) { %>
-            <a href="/user/liked_news" class="<%= currentPage === 'liked' ? 'selected' : '' %>">Liked</a>
             <a href="/user/saved_news" class="<%= currentPage === 'saved' ? 'selected' : '' %>">Saved</a>
         <% } else { %>
             <a href="/logIn" class="<%= currentPage === 'logIn' ? 'selected' : '' %>">Log In</a>
@@ -324,7 +323,7 @@
                         <input type="checkbox" id="theme-toggle" <%= user.theme ? 'checked' : '' %> />
                         <label for="theme-toggle" class="toggle-label">
                             <span class="toggle-ball"></span>
-                            <span class="label-text day">🌞</span>
+                            <span class="label-text day">☀️</span>
                             <span class="label-text night">🌙</span>
                         </label>
 
