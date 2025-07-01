@@ -26,8 +26,21 @@ const userSchema=mongoose.Schema({
         type:Boolean,
         default:false
     },
-    savedNews: [String],
-    likedNews: [String],
+    // Option 1: Extend User schema
+savedNews: [
+  {
+    title: String,
+    description: String,
+    url: String,
+    urlToImage: String,
+    publishedAt: String,
+    source: {
+      id: String,
+      name: String,
+    },
+    content: String
+  }
+],
 
 })
 
