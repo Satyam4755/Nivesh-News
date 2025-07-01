@@ -162,7 +162,7 @@
         margin: 48px 0 32px 0;
     }
     .promo-image {
-        max-width: 90vw;
+        max-width: 90%;
         width: 600px;
         height: auto;
         border-radius: 16px;
@@ -355,15 +355,6 @@
         
                             <% if (showOptions) { %>
                                 <div class="fav-container">
-                                    <!-- ❤️ LIKE Button -->
-
-                                    <form action="/news/like" method="POST">
-                                        <input type="hidden" name="newsUrl" value="<%= article.url %>">
-                                        <button type="submit" style="background: none; border: none; margin-left: 10px;">
-                                            <img id="<%= likedUrls.includes(article.url) ? 'favImg2' : 'favImg1' %>" src="/pngtree-red-3d-heart-emoji-realistic-shadow-png-image_4539964.png"
-                                                alt="Like" style="width: 30px;">
-                                        </button>
-                                    </form>
         
                                     <!-- 📥 SAVE Button -->
                                     <form action="/news/save" method="POST">
@@ -403,7 +394,7 @@
         </div>
         
         <h2 style="color: rgb(152, 10, 98);">Why Choose Us?</h2>
-        <h3 class="special-offer" style="min-width: 90%;">
+        <h3 class="special-offer" style="max-width: 85%;">
             📰 Welcome to <strong>India News Hub</strong> — your trusted multi-source news platform that keeps you updated with
             the latest headlines, breaking updates, and trending stories across India and the globe. We bring together real-time
             top stories using advanced APIs 🧠, clean design 🎨, and an intuitive user experience that puts news at your
@@ -423,24 +414,24 @@
         </p>
         
         <div class="offers-section">
-            <div class="offer-card">
+            <div class="offer-card" style="width: 85%;">
                 <div class="offer-badge">📥 Save News</div>
                 <h3>Bookmark Your Favorites</h3>
                 <p>Save important articles to revisit anytime.</p>
             </div>
-            <div class="offer-card">
+            <div class="offer-card" style="width: 85%;">
                 <div class="offer-badge">❤️ Like Articles</div>
                 <h3>Build Your News Feed</h3>
                 <p>Like stories and see what matters most to you.</p>
             </div>
         </div>
         
-        <div class="special-offer">
+        <div class="special-offer" style="max-width: 85%;">
             <span class="emoji">🌐</span> <strong>Live Updates from Trusted Sources</strong><br>
             Get real-time top headlines across India from verified media networks.
         </div>
         
-        <div class="special-offer">
+        <div class="special-offer" style="max-width: 85%;">
             <span class="emoji">🔍</span> <strong>Smart Categorization</strong><br>
             Browse by categories like business, sports, entertainment, and more for a personalized experience.
         </div>
