@@ -292,35 +292,37 @@ exports.deleteUser = async (req, res) => {
       });
     }
 
-
-    
-    // 🔁 Clean from other users' booked arrays
+    // 🔁 Remove user ID from other users' booked arrays (if applicable)
     await User.updateMany(
       { booked: user._id },
       { $pull: { booked: user._id } }
     );
 
-    // 🔁 Delete profile picture from Cloudinary
+    // 🔁 Delete profile image from Cloudinary if present
     if (user.profilePicturePublicId) {
       await cloudinary.uploader.destroy(user.profilePicturePublicId).catch(err => {
         console.warn("Error deleting profile image:", err.message);
       });
     }
 
-    // 🔁 Delete the user itself
+    // 🔁 Finally delete the user document
     await User.findByIdAndDelete(user._id);
 
-    // 🔁 Destroy session if the user is logged in
+    // 🔁 Destroy session after deletion
     if (req.session.user && req.session.user._id.toString() === user._id.toString()) {
-      req.session.destroy(() => {
-        res.redirect('/logIn');
+      req.session.destroy(err => {
+        if (err) {
+          console.error("Session destruction error:", err);
+          return res.redirect('/');
+        }
+        return res.redirect('/logIn');
       });
     } else {
-      res.redirect('/');
+      return res.redirect('/');
     }
 
   } catch (err) {
-    console.error('Delete Error:', err);
-    res.status(500).send('Error deleting user');
+    console.error('❌ Delete Error:', err);
+    return res.status(500).send('Error deleting user');
   }
 };
